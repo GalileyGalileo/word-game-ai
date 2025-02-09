@@ -47,21 +47,26 @@ async function startLearning() {
 }
 
 async function generateWordPairsFromAPI() {
-    const prompt = "Generate a list of 50 random English words with their translations in Russian. The words should be common, everyday vocabulary suitable for language learners. Provide the output in the following format:\n\n```json\n[\n    { \"word\": \"apple\", \"translation\": \"яблоко\" },\n    { \"word\": \"car\", \"translation\": \"машина\" },\n    { \"word\": \"dog\", \"translation\": \"собака\" },\n    { \"word\": \"house\", \"translation\": \"дом\" },\n    { \"word\": \"book\", \"translation\": \"книга\" },\n    ...\n]\n```";
+    const prompt = "
 
     try {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer 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",
+                "Authorization": "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",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "deepseek/deepseek-r1-distill-llama-70b:free", // Replace with the correct model name
+                model: "google/gemini-2.0-pro-exp-02-05:free", // Replace with the correct model name
                 messages: [
                     {
                         "role": "user",
-                        "content": prompt
+                        "content": [
+                            {
+                              "type": "text",
+                              "text": "Generate a list of 50 random English words with their translations in Russian. The words should be common, everyday vocabulary suitable for language learners. Provide the output in the following format:\n\n```json\n[\n    { \"word\": \"apple\", \"translation\": \"яблоко\" },\n    { \"word\": \"car\", \"translation\": \"машина\" },\n    { \"word\": \"dog\", \"translation\": \"собака\" },\n    { \"word\": \"house\", \"translation\": \"дом\" },\n    { \"word\": \"book\", \"translation\": \"книга\" },\n    ...\n]\n```"
+                            }
+                        ]
                     }
                 ],
             })
