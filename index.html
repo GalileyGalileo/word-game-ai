@@ -3,12 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="apple-mobile-web-app-title" content="Mr. Trans" />
-    <link rel="manifest" href="/site.json" />
+    <title>Изучение слов</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -99,6 +95,20 @@
             z-index: 1000; /* Чтобы кнопка была поверх других элементов */
         }
 
+        #backButton {
+            width: 60px; /* Ширина кнопки */
+            height: 40px; /* Высота кнопки */
+            background-color: orange; /* Оранжевый цвет */
+            border: 1px solid #000; /* Тонкая черная граница */
+            color: #000; /* Цвет текста */
+            cursor: pointer; /* Курсор в виде указателя */
+            position: fixed; /* Фиксируем кнопку "Back" */
+            top: 20px; /* Отступ сверху */
+            left: 20px; /* Отступ слева */
+            z-index: 1000; /* Чтобы кнопка была поверх других элементов */
+            display: none; /* Скрываем кнопку по умолчанию */
+        }
+
         .file-input-container {
             display: flex;
             justify-content: center;
@@ -136,6 +146,7 @@
     <div class="options-container" id="options-container"></div>
     <div class="result" id="result"></div>
     <div class="stats" id="stats">Correct: 0 | Incorrect: 0 | Time: 0 сек</div>
+    <button id="backButton" onclick="goBack()">Back</button>
     <script>
         let words = [];
         let translations = [];
@@ -143,6 +154,8 @@
         let incorrectCount = parseInt(localStorage.getItem("incorrectCount")) || 0;
         let elapsedTime = parseInt(localStorage.getItem("elapsedTime")) || 0;
         let timer;
+        let currentWordIndex = 0;
+        let previousWords = [];
 
         document.addEventListener("DOMContentLoaded", function () {
             updateStats();
@@ -171,6 +184,9 @@
                     stopButton.onclick = stopLearning;
                     document.body.appendChild(stopButton);
 
+                    // Показываем кнопку "Back"
+                    document.getElementById("backButton").style.display = "block";
+
                     correctCount = 0;
                     incorrectCount = 0;
                     elapsedTime = 0;
@@ -194,6 +210,7 @@
             localStorage.setItem("elapsedTime", elapsedTime);
             document.getElementById("header").classList.remove("hidden");
             document.getElementById("stopButton").remove(); // Удаляем кнопку "Stop"
+            document.getElementById("backButton").style.display = "none"; // Скрываем кнопку "Back"
             document.getElementById("word-container").innerText = "";
             document.getElementById("options-container").innerHTML = "";
             document.getElementById("result").innerText = "";
@@ -204,9 +221,10 @@
                 alert("Недостаточно данных для создания вариантов ответа");
                 return;
             }
-            let randomIndex = Math.floor(Math.random() * words.length);
-            document.getElementById('word-container').innerText = words[randomIndex];
-            generateOptions(randomIndex);
+            currentWordIndex = Math.floor(Math.random() * words.length);
+            previousWords.push(currentWordIndex); // Сохраняем текущее слово в историю
+            document.getElementById('word-container').innerText = words[currentWordIndex];
+            generateOptions(currentWordIndex);
         }
 
         function generateOptions(correctIndex) {
@@ -271,6 +289,17 @@
 
         function updateStats() {
             document.getElementById("stats").innerText = `Correct: ${correctCount} | Incorrect: ${incorrectCount} | Time: ${elapsedTime} сек`;
+        }
+
+        function goBack() {
+            if (previousWords.length > 1) {
+                previousWords.pop(); // Удаляем текущее слово из истории
+                const previousWordIndex = previousWords[previousWords.length - 1]; // Берем предыдущее слово
+                document.getElementById('word-container').innerText = words[previousWordIndex];
+                generateOptions(previousWordIndex);
+            } else {
+                alert("Нет предыдущих слов");
+            }
         }
     </script>
 </body>
