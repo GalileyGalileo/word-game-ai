@@ -50,7 +50,7 @@ async function generateWordPairsFromAPI() {
     const prompt = "Generate a list of 50 random English words with their translations in Russian. The words should be common, everyday vocabulary suitable for language learners. Provide the output in the following format:\n\n```json\n[\n    { \"word\": \"apple\", \"translation\": \"яблоко\" },\n    { \"word\": \"car\", \"translation\": \"машина\" },\n    { \"word\": \"dog\", \"translation\": \"собака\" },\n    { \"word\": \"house\", \"translation\": \"дом\" },\n    { \"word\": \"book\", \"translation\": \"книга\" },\n    ...\n]\n```";
 
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
