@@ -9,8 +9,8 @@ let currentWordIndex = 0;
 let previousWords = [];
 
 // DeepSeek API endpoint and API key (replace with your actual API key)
-const API_URL = "https://api.llama-api.com"; // Replace with the actual API endpoint
-const API_KEY = "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"; // Replace with your actual API key
+// const API_URL = "https://api.llama-api.com"; // Replace with the actual API endpoint
+// const API_KEY = "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"; // Replace with your actual API key
 
 document.addEventListener("DOMContentLoaded", function () {
     updateStats();
@@ -54,7 +54,7 @@ async function generateWordPairsFromAPI() {
         const response = await fetch("https://api.llama-api.com", {
             method: "POST",
             headers: {
-                "Authorization": "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",
+                "Authorization": "LA-d683532763af4b27a28b1f3be82d13e44c3544316ba846b58043c8a9cd698381",
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
