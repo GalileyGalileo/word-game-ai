@@ -1,3 +1,4 @@
+import { Configuration, OpenAIApi } from "openai";
 let words = [];
 let translations = [];
 let correctCount = parseInt(localStorage.getItem("correctCount")) || 0;
