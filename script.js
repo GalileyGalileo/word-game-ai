@@ -53,8 +53,8 @@ async function generateWordPairsFromAPI() {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${API_KEY}`
+                "Authorization": "Bearer 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",
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 model: "deepseek/deepseek-r1-distill-llama-70b:free", // Replace with the correct model name
