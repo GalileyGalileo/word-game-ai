@@ -8,7 +8,7 @@ let currentWordIndex = 0;
 let previousWords = [];
 
 // DeepSeek API endpoint and API key (replace with your actual API key)
-const API_URL = "https://openrouter.ai/api/v1/chat/completions"; // Replace with the actual API endpoint
+const API_URL = "https://openrouter.ai/api/v1"; // Replace with the actual API endpoint
 const API_KEY = "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"; // Replace with your actual API key
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -60,11 +60,10 @@ async function generateWordPairsFromAPI() {
                 model: "deepseek/deepseek-r1-distill-llama-70b:free", // Replace with the correct model name
                 messages: [
                     {
-                        role: "user",
-                        content: prompt
+                        "role": "user",
+                        "content": prompt
                     }
                 ],
-                max_tokens: 1000 // Adjust as needed
             })
         });
 
